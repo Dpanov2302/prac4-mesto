@@ -1,8 +1,8 @@
 // @todo: Темплейт карточки
-const cardsContainer = document.querySelector('.places__list');
 const cardTemplate = document.querySelector('#card-template').content;
 
 // @todo: DOM узлы
+const cardsContainer = document.querySelector('.places__list');
 const imagePopup = document.querySelector('.popup_type_image');
 const popupImage = imagePopup.querySelector('.popup__image');
 const popupCaption = imagePopup.querySelector('.popup__caption');
