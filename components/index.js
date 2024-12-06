@@ -1,79 +1,26 @@
-// @todo: Темплейт карточки
-const cardTemplate = document.querySelector('#card-template').content;
+import { initialCards } from "./cards.js";
+import { enableValidation } from "./validation.js";
+import { createCard } from "./card.js";
+import { openModal, closeModal } from "./modal.js";
 
-// @todo: DOM узлы
-const cardsContainer = document.querySelector('.places__list');
-const imagePopup = document.querySelector('.popup_type_image');
-const popupImage = imagePopup.querySelector('.popup__image');
-const popupCaption = imagePopup.querySelector('.popup__caption');
+export const cardsContainer = document.querySelector('.places__list');
+export const cardTemplate = document.querySelector('#card-template').content;
 
-// @todo: Функция создания карточки
-function createCard(cardData) {
-    const newCard = cardTemplate.cloneNode(true);
-
-    const cardImage = newCard.querySelector('.card__image');
-    const cardTitle = newCard.querySelector('.card__title');
-    const deleteButton = newCard.querySelector('.card__delete-button');
-    const likeButton = newCard.querySelector('.card__like-button');
-
-    cardImage.src = cardData.link;
-    cardImage.alt = cardData.name;
-    cardTitle.textContent = cardData.name;
-
-    // Обработчик клика на изображение для открытия поп-апа
-    cardImage.addEventListener('click', () => {
-        popupImage.src = cardData.link;
-        popupImage.alt = cardData.name;
-        popupCaption.textContent = cardData.name;
-        openModal(imagePopup);
-    });
-
-    deleteButton.addEventListener('click', (evt) => {
-        removeCard(evt);
-    });
-
-    likeButton.addEventListener('click', (evt) => {
-        toggleLike(evt);
-    });
-
-    return newCard;
-}
-
-// @todo: Функция удаления карточки
-function removeCard(evt) {
-    const cardItem = evt.target.closest('.card');
-    if (cardItem) {
-        cardsContainer.removeChild(cardItem);
-    }
-}
-
-function toggleLike(evt) {
-    const likeButton = evt.target;
-    likeButton.classList.toggle('card__like-button_is-active');
-}
+export const imagePopup = document.querySelector('.popup_type_image');
+export const popupImage = imagePopup.querySelector('.popup__image');
+export const popupCaption = imagePopup.querySelector('.popup__caption');
 
 // @todo: Вывести карточки на страницу
 initialCards.forEach(card => {
     const cardElement = createCard(card);
-    cardsContainer.append(cardElement); // Добавляем новую карточку в список
+    cardsContainer.append(cardElement);
 });
 
 // Поп-апы
-
 const profilePopup = document.querySelector('.popup_type_edit');
 const cardPopup = document.querySelector('.popup_type_new-card');
 
-// Функция для открытия попапа
-function openModal(popup) {
-    popup.classList.add('popup_is-opened');
-}
-
-// Функция для закрытия попапа
-function closeModal(popup) {
-    popup.classList.remove('popup_is-opened');
-}
-
-// Обработчик событий для кнопок закрытия поп-апов
+// Обработчик событий для кнопок закрытия попапов
 const closeButtons = document.querySelectorAll('.popup__close');
 closeButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -82,11 +29,11 @@ closeButtons.forEach(button => {
     });
 });
 
-// Закрытие поп-апа при клике вне его содержимого
+// Закрытие попапа при клике вне его содержимого
 const popups = document.querySelectorAll('.popup');
 popups.forEach(popup => {
     popup.addEventListener('click', (evt) => {
-        if (evt.target === popup) { // Проверяем, был ли клик на самом поп-апе
+        if (evt.target === popup) {
             closeModal(popup);
         }
     });
@@ -105,7 +52,7 @@ function fillProfileForm() {
     jobInput.value = profileDescription.textContent;
 }
 
-// Обработчик открытия поп-апа редактирования профиля
+// Обработчик открытия попапа редактирования профиля
 document.querySelector('.profile__edit-button').addEventListener('click', () => {
     fillProfileForm();
     openModal(profilePopup);
@@ -132,7 +79,7 @@ const cardFormElement = cardPopup.querySelector('.popup__form');
 const cardNameInput = cardFormElement.querySelector('.popup__input_type_card-name');
 const cardLinkInput = cardFormElement.querySelector('.popup__input_type_url');
 
-// Обработчик открытия поп-апа добавления карточки
+
 document.querySelector('.profile__add-button').addEventListener('click', () => {
     cardNameInput.value = '';
     cardLinkInput.value = '';
@@ -148,7 +95,7 @@ function handleCardFormSubmit(evt) {
         link: cardLinkInput.value,
     };
 
-    // Создаем новую карточку и добавляем её в начало контейнера
+
     const newCardElement = createCard(cardData);
     cardsContainer.prepend(newCardElement);
 
@@ -158,7 +105,9 @@ function handleCardFormSubmit(evt) {
 // Прикрепляем обработчик к форме добавления карточки
 cardFormElement.addEventListener('submit', handleCardFormSubmit);
 
-// Добавление класса для анимации при загрузке приложения
+
 popups.forEach(popup => {
     popup.classList.add('popup_is-animated');
 });
+
+enableValidation();
