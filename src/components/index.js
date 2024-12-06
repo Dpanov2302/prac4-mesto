@@ -1,5 +1,5 @@
 import { initialCards } from "./cards.js";
-import { enableValidation } from "./validation.js";
+import { enableValidation } from "./validate.js";
 import { createCard } from "./card.js";
 import { openModal, closeModal } from "./modal.js";
 // Для Webpack
