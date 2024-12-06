@@ -2,6 +2,8 @@ import { initialCards } from "./cards.js";
 import { enableValidation } from "./validation.js";
 import { createCard } from "./card.js";
 import { openModal, closeModal } from "./modal.js";
+// Для Webpack
+import "/src/pages/index.css";
 
 export const cardsContainer = document.querySelector('.places__list');
 export const cardTemplate = document.querySelector('#card-template').content;

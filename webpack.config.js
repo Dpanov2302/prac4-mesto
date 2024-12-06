@@ -1,5 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/components/index.js', // Входной файл
@@ -37,7 +38,12 @@ module.exports = {
     mode: 'development', // Режим разработки (или 'production')
     plugins: [
         new HtmlWebpackPlugin({
-            template: './src/index.html', // Укажи путь к файлу HTML
+            template: './src/index.html', // Путь к файлу HTML
+        }),
+        new CopyPlugin({
+            patterns: [
+                { from: 'src/images', to: 'images' }, // Копирует папку images в dist/images
+            ],
         }),
     ],
 };
