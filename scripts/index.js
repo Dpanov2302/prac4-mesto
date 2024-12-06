@@ -58,7 +58,7 @@ initialCards.forEach(card => {
     cardsContainer.append(cardElement); // Добавляем новую карточку в список
 });
 
-// ПОПАПЫ!!!!!!!!!!!!
+// Поп-апы
 
 const profilePopup = document.querySelector('.popup_type_edit');
 const cardPopup = document.querySelector('.popup_type_new-card');
