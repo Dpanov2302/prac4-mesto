@@ -1,49 +1,51 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-    entry: './src/components/index.js', // Входной файл
-    output: {
-        filename: 'bundle.js', // Имя файла сборки
-        path: path.resolve(__dirname, 'dist'), // Папка для сборки
-        clean: true, // Очистка папки перед сборкой
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/, // Обработка JS файлов
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/preset-env'],
-                    },
-                },
-            },
-            {
-                test: /\.css$/, // Обработка CSS
-                use: ['style-loader', 'css-loader'],
-            },
-            {
-                test: /\.(png|jpe?g|gif|svg)$/i, // Обработка изображений
-                type: 'asset/resource',
-            },
-        ],
-    },
-    devServer: {
-        static: './dist', // Папка для локального сервера
-        open: true,
-    },
-    mode: 'development', // Режим разработки (или 'production')
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './src/index.html', // Путь к файлу HTML
-        }),
-        new CopyPlugin({
-            patterns: [
-                { from: 'src/images', to: 'images' }, // Копирует папку images в dist/images
-            ],
-        }),
-    ],
+	entry: { main: "./src/components/index.js" },
+	output: {
+		path: path.resolve(__dirname, "dist"),
+		filename: "main.js",
+		publicPath: "",
+	},
+	mode: "development",
+	devServer: {
+		static: path.resolve(__dirname, "./dist"),
+		compress: true,
+		port: 8090,
+		open: true, // сайт будет открываться сам при запуске npm run dev
+	},
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				use: "babel-loader",
+				exclude: "/node_modules/",
+			},
+			{
+				test: /\.(png|svg|jpg|gif|woff(2)?|eot|ttf|otf)$/,
+				type: "asset/resource",
+			},
+			{
+				test: /\.css$/,
+				use: [
+					MiniCssExtractPlugin.loader,
+					{
+						loader: "css-loader",
+						options: { importLoaders: 1 },
+					},
+					"postcss-loader",
+				],
+			},
+		],
+	},
+	plugins: [
+		new HtmlWebpackPlugin({
+			template: "./src/index.html",
+		}),
+		new CleanWebpackPlugin(),
+		new MiniCssExtractPlugin(),
+	],
 };
